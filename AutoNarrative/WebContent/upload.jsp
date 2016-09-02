@@ -17,22 +17,49 @@ table, th, td {
 function openPage(pageName){
 	window.location.href=pageName;
 }
+
+function validateInput(){
+	
+	var caseID=document.getElementById("caseID").value;
+	var fileName=document.getElementById("file").value;
+	//alert(caseID);
+	if(caseID==""){
+		alert("Please Enter CaseId: ");
+		return false;
+	}if(fileName==""){
+		alert("Please select file: ");
+		return false;
+	}
+	
+		return true;
+}
 </script>
 
 <title>Insert title here</title>
 </head>
 <body>
-<form method="post" action="UploadServlet" enctype="multipart/form-data">
-CaseID	<input type="text" name="caseID" id="caseID" /><br><br>
-Upload File<input type="file" name="upload" value="Browse"/><br>
-<input type="submit" value="Submit" />     
+
+<form method="post" action="UploadServlet" enctype="multipart/form-data" onsubmit="return validateInput();">
+<table align="center">
+<tr><td>CaseID</td><td>	<input type="text" name="caseID" id="caseID" /><br><br></td>
+</tr>
+<tr>
+<td>Upload File</td> <td><input type="file" name="upload" id="file" value="Browse"/><br></td>
+</tr>
+<tr>
+<td>
+<input type="submit" value="Submit" />
+</td>
+</tr>
+</table>     
 </form>
 
-<% System.out.println("\n\nIn jsp page==>>\n"+request.getSession().getAttribute("jsonArray"));
+<center>${requestScope.message}</center>
+
+<% //System.out.println("\n\nIn jsp page==>>\n"+request.getSession().getAttribute("jsonArray"));
 if(request.getSession().getAttribute("jsonArray")!=null){
    JSONArray jsonArray=(JSONArray)request.getSession().getAttribute("jsonArray");
-   ArrayList<String> keyList=new ArrayList();
-   
+   ArrayList<String> keyList=new ArrayList();   
    for(Object o:jsonArray){
 	   JSONObject jsonObject=(JSONObject) o;
 	   Iterator keysToCopyIterator =jsonObject.keys();	   
